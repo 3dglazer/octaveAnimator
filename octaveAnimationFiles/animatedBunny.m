@@ -1,19 +1,25 @@
-a=[1 2 3]';
-b=[1 2 4]';
-c=[2 2 4]';
-keyframes=[a,b,c];
-timeValues=[0,1,2];
-frames=linspace(0,2,10);
-keys=interpAnimation(keyframes,timeValues,frames);
-inputFilePath='/Volumes/DISK2/developer/animatedScenes/bunny/';
-outputFilePath='/Volumes/DISK2/developer/animatedScenes/bunny/animScenes/';
+a=[0 0 0]'*0.1;
+b=[0.2 0 -1]'*0.1;
+c=[0.5 0 -1.5]'*0.1;
+animLengthFrames=50
+keyframes=[a,b,c]
+timeValues=[0,1,2]
+frames=linspace(0,2,animLengthFrames)
+keys=interpAnimation(keyframes,timeValues,frames)
+inputFilePath='/Volumes/DISK2/developer/octaveAnimator/bunny/';
+outputFilePath='/Volumes/DISK2/developer/octaveAnimator/bunny/animScenes/';
+
+
+
 fn='bunny' %.pbrt';
 fileName=strcat(inputFilePath,[fn '.pbrt']);
 textData=fileread(fileName);
 
-i=1;
-keyString=strcat(['[ ',num2str(keys(:,i)',6),' ]']);
-	
+for i=linspace(1,animLengthFrames,animLengthFrames)
+nkeys=keys
+i
+%keyString=strcat(['[ ',num2str(keys(:,i)',6),' ]']);
+keyString=strcat([num2str(nkeys(:,i)',6)]); 
 output=strrep(textData, '$anim$', keyString);
 %rename image
 imgName=['_', sprintf("%03d",i)] 
@@ -23,4 +29,4 @@ output;
 file_id = fopen(ofl, 'w');
 fdisp(file_id,output);
 fclose(file_id);
-
+end

@@ -1,5 +1,9 @@
-function interpKeys=interpAnimation (keyframes,times,querryFrames)
-timeValues=times;
-frames=querryFrames;
-interpKeys=[interp1(timeValues,keyframes(1,:),frames);interp1(timeValues,keyframes(2,:),frames);interp1(timeValues,keyframes(3,:),frames)]
+function interpKeys=interpAnimation (kf,times,querryFrames)
+keyframes=kf
+timeValues=times
+frames=querryFrames
+x=interp1(timeValues,keyframes(1,:),frames)
+y=interp1(timeValues,keyframes(2,:),frames)
+z=interp1(timeValues,keyframes(3,:),frames)
+interpKeys=[x;y;z]
 endfunction

@@ -1,0 +1,57 @@
+Film "image"
+ "integer xresolution" [256] "integer yresolution" [256]
+	"string filename" "images/bunny_020.exr"
+# added attributes for preprocessing stage like radius (differential ray radius) and nPaths (number of radiance caching paths to shoot)
+Renderer "progressiverenderer" "integer iterations" [20] "integer seed" [1279] "integer nPaths" [100] "float radius" [.1]
+
+VolumeIntegrator "multi" "float stepsize" [0.5]
+
+SurfaceIntegrator "igi" "integer nlights" [0]
+    "integer nsets" [1] "float glimit" [.2] "bool dump" "false" "string filename" "/myPrograms/PBRT-hratky/pbrt-scenes/spotfog_hetero.data"
+
+LookAt 0 .2 .2    -.02 .1 0  0 1 0
+Camera "perspective" "float fov" [60]
+
+WorldBegin
+
+Volume "perlinVolume"
+	"color sigma_a" [15. 15.3 15.3 ]
+	"color sigma_s" [.2 .2 .2]
+	"point p0" [ -0.8 -0.8 -0.8 ] "point p1" [ 0.8 0.8 0.8]
+	"float g" [0.7]
+	"float omega" [0.8]
+	"float frequency" [10.1]
+	"integer nOctaves" [3 ]
+AttributeBegin
+Rotate 0 0 1 0
+LightSource "spot" "point from" [0.5 0.5 0.5 ] "point to" [0 0 0 ]
+	"color I" [100 100 100 ] "float coneangle" [5.]
+AttributeEnd
+
+#AttributeBegin
+
+#Rotate 90 1 0 0
+#LightSource "infinite" "string mapname" ["textures/glacier_latlong.exr"]
+#        "integer nsamples" [32]#
+#AttributeEnd
+
+#AttributeBegin
+#AreaLightSource "area" "color L" [60 60 60 ] "integer nsamples"  [3]
+#AreaLightSource "area" "color L" [15 15 15 ] "integer nsamples"  [4]
+#Translate 0 2 0
+#Rotate 90 1 0 0
+#Shape "disk" "float radius" [.25]
+#AttributeEnd
+
+Material "matte" "color Kd" [.4 .42 .4]
+Shape "trianglemesh" "point P" [ -1 0 -1 1 0 -1 1 0 1 -1 0 1 ]
+	"integer indices" [ 0 1 2 2 3 0]
+
+#Material "measured" "string filename" "brdfs/mystique.brdf"
+Material "uber" "color Kd" [.8 .7 .4 ] "color Ks" [.05 .05 .05]
+AttributeBegin
+Translate 0.0155102            0    -0.077551
+Include "geometry/bunny.pbrt"
+AttributeEnd
+WorldEnd
+

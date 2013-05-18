@@ -1,16 +1,8 @@
 Film "image"
- "integer xresolution" [1024] "integer yresolution" [1024]
-	"string filename" "bunny$frame$.exr"
+ "integer xresolution" [256] "integer yresolution" [256]
+	"string filename" "images/bunny$frame$.exr"
 # added attributes for preprocessing stage like radius (differential ray radius) and nPaths (number of radiance caching paths to shoot)
-Renderer "progressiverenderer" "integer iterations" [10] "integer seed" [1279] "integer nPaths" [40] "float radius" [.1]
-
-
-
-$anim$
-$anim$
-
-
-
+Renderer "progressiverenderer" "integer iterations" [20] "integer seed" [1279] "integer nPaths" [100] "float radius" [.1]
 
 VolumeIntegrator "multi" "float stepsize" [0.5]
 
@@ -57,6 +49,8 @@ Shape "trianglemesh" "point P" [ -1 0 -1 1 0 -1 1 0 1 -1 0 1 ]
 
 #Material "measured" "string filename" "brdfs/mystique.brdf"
 Material "uber" "color Kd" [.8 .7 .4 ] "color Ks" [.05 .05 .05]
+AttributeBegin
+Translate $anim$
 Include "geometry/bunny.pbrt"
-
+AttributeEnd
 WorldEnd
