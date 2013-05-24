@@ -1,0 +1,46 @@
+Scale -1 1 1 Accelerator "bvh" "string splitmethod" "sah"
+
+LookAt 18 3.5 2    8 -.5 20   0 1 0
+Camera "perspective" "float fov" [50]
+
+Sampler "stratified" "integer pixelsamples" [1] 
+PixelFilter "box"
+Film "image" "integer xresolution" [720] "integer yresolution" [360]
+    "string filename" "room-iginext_04.exr"
+
+# added attributes for preprocessing stage like radius (differential ray radius) and nPaths (number of radiance caching paths to shoot)
+Renderer "progressiverenderer" "integer iterations" [10] "integer seed" [317442] "integer nPaths" [1000] "float radius" [.1]
+
+
+VolumeIntegrator "multi" "float stepsize" [1.5]
+
+SurfaceIntegrator "igi" "integer nlights" [10]
+    "integer nsets" [1] "float glimit" [.5] "bool dump" "false" "string filename" "/myPrograms/PBRT-hratky/pbrt-scenes/spotfog_hetero.data"
+
+
+WorldBegin
+AttributeBegin
+#Scale 0.2 0.2 0.2
+Volume "perlinVolume"
+	"color sigma_a" [2.4 2.4 3.6 ]
+	"color sigma_s" [.5 .5 .5]
+	"point p0" [ -25 0 -25 ] "point p1" [ 25 2 35]
+	"float g" [0.65]
+	"float omega" [0.5]
+	"float frequency" [1.2]
+	"integer nOctaves" [3 ]
+AttributeEnd
+# lights
+
+
+#LightSource "spot" "color I" [7000000 7000000 7000000] "point from" [3.5 25 -5]
+#		"point to" [10 10 10] "float coneangle" [5]
+#		"float conedeltaangle" [.01]
+AttributeBegin
+Translate 10 4.5 8
+LightSource "point" "color I" [250 250 250 ] 
+AttributeEnd
+AttributeBegin
+Include "geometry/room-geom.pbrt"
+AttributeEnd
+WorldEnd

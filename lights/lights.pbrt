@@ -8,7 +8,7 @@ Rotate 0 1 0 0
 Camera "perspective" "float fov" [60]
 
 # added attributes for preprocessing stage like radius (differential ray radius) and nPaths (number of radiance caching paths to shoot)
-Renderer "progressiverenderer" "integer iterations" [20] "integer seed" [1279] "integer nPaths" [50] "float radius" [.1]
+Renderer "progressiverenderer" "integer iterations" [25] "integer seed" [1279] "integer nPaths" [100] "float radius" [.1]
 
 
 VolumeIntegrator "multi" "float stepsize" [0.4]

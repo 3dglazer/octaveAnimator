@@ -1,0 +1,82 @@
+Film "image"
+ "integer xresolution" [256] "integer yresolution" [256]
+	"string filename" "images/sphere_021.exr"
+Sampler "stratified" "integer xsamples" [1] "integer ysamples" [1] 
+PixelFilter "box"
+ 
+Rotate 0 1 0 0 
+Camera "perspective" "float fov" [60]
+
+# added attributes for preprocessing stage like radius (differential ray radius) and nPaths (number of radiance caching paths to shoot)
+Renderer "progressiverenderer" "integer iterations" [25] "integer seed" [1279] "integer nPaths" [100] "float radius" [.1]
+
+
+VolumeIntegrator "multi" "float stepsize" [0.4]
+
+SurfaceIntegrator "igi" "integer nlights" [0]
+    "integer nsets" [1] "float glimit" [.2] "bool dump" "false" "string filename" "/myPrograms/PBRT-hratky/pbrt-scenes/spotfog_hetero.data"
+
+WorldBegin
+Translate 0. -1 2.5
+Volume "perlinVolume"
+	"color sigma_a" [.2 .2 .2 ]
+	"color sigma_s" [.3 .3 .3]
+	"point p0" [ -10 0 -5 ] "point p1" [ 5 5 5]
+	"float g" [0.75]
+	"float omega" [0.5]
+	"float frequency" [2.5]
+	"integer nOctaves" [2 ]
+
+#LightSource "spot" "point from" [-3 6 -2 ] "point to" [0 1 0 ]
+#LightSource "spot" "point from" [-3 4 -2 ] "point to" [0 1 0 ]
+AttributeBegin
+LightSource "spot" "point from" [-3      6.83333      1.33333] "point to" [0 1 0 ]
+	"color I" [45000 45000 45000 ] "float coneangle" [2.]
+AttributeEnd
+
+#LightSource "spot" "point from" [ ] "point to" [0 1 0 ]
+AttributeBegin
+LightSource "spot" "point from" [-2      4.33333     -1.33333 ] "point to" [0 1 0 ]
+	"color I" [45000 0 0 ] "float coneangle" [2.]
+AttributeEnd
+#LightSource "spot" "point from" [3 6 -2 ] "point to" [0 1 0 ]
+#LightSource "spot" "point from" [2.5 2 -3 ] "point to" [0 1 0 ]
+AttributeBegin
+LightSource "spot" "point from" [-0.75      5.16667     -1.16667] "point to" [0 1 0 ]
+	"color I" [0 45000 0 ] "float coneangle" [2.]
+AttributeEnd
+#LightSource "spot" "point from" [-3 6 2 ] "point to" [0 1 0 ]
+#LightSource "spot" "point from" [-1 5 3 ] "point to" [0 1 0 ]
+AttributeBegin
+LightSource "spot" "point from" [-0.5      5.16667      1.16667] "point to" [0 1 0 ]
+	"color I" [0 0 45000 ] "float coneangle" [2.]
+AttributeEnd
+
+AttributeBegin
+#Material "matte" "color Kd" [.7 .7 .7]
+Material "glass" "float index" [1.3] "color Kt" [0.9 0.9 1] 
+#animated translate
+#phase one
+#Translate 0.1 0.5 0.5 
+#phase two
+#Translate 0.8 0.4 0.6
+AttributeBegin
+Translate 0 1 -.05
+Shape "sphere" "float radius" [.5]
+AttributeEnd
+AttributeEnd
+AttributeBegin
+Scale 10.000000 10.000000 10.000000
+Material "matte" "color Kd" [.1 .1 .1 ]
+#Material "metal"  "float roughness" [.001]
+#    "spectrum eta" "spds/metals/Au.eta.spd"
+#    "spectrum k" "spds/metals/Au.k.spd"
+Shape "trianglemesh" "integer indices" [0 1 2 2 3 0]
+	"point P" [ -5 0 -5  5 0 -5  5 0 5  -5 0 5]
+#Shape "trianglemesh" "integer indices" [0 1 2 2 3 0]
+#	"point P" [ -5 0 3  5 0 3   5 10 3  -5 10 3 ]
+#Shape "trianglemesh" "integer indices" [0 1 2 2 3 0]
+#	"point P" [ 5 0 3   5 0 -3  5 10 -3  5 10 3]
+AttributeEnd
+WorldEnd
+
