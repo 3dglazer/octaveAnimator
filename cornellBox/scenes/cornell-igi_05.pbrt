@@ -1,0 +1,100 @@
+Film "image"
+ "integer xresolution" [512] "integer yresolution" [512]
+	"string filename" "cornelHetero_igiSecond_05.exr"
+Sampler "stratified" "integer xsamples" [1] "integer ysamples" [1] 
+PixelFilter "box"
+
+
+############################################################################
+#
+# This RIB file describes the famous "Cornell Box", which is a test scene
+# commonly used to demonstrate radiosity.
+#
+############################################################################
+#PixelSamples 2 2
+#CropWindow .3 .4 .2 .3
+#Quantize "rgba" 0 0 0 0
+
+# added attributes for preprocessing stage like radius (differential ray radius) and nPaths (number of radiance caching paths to shoot)
+Renderer "progressiverenderer" "integer iterations" [3] "integer seed" [17911] "integer nPaths" [100] "float radius" [.1]
+
+
+VolumeIntegrator "multi" "float stepsize" [70.]
+
+SurfaceIntegrator "igi" "integer nlights" [1]
+    "integer nsets" [1] "float glimit" [.5] "bool dump" "false" "string filename" "/myPrograms/PBRT-hratky/pbrt-scenes/cornell_hetero.data"
+
+
+
+Scale -1.000000 1.000000 1.000000
+# ignored Orientation "rh"
+##CameraOrientation 278 273 -800 278 273 0 0 1 0
+ConcatTransform [ 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 ]
+Translate -278.000000 -273.000000 500.000000
+
+Camera "perspective" "float fov" [55.000000 ]
+
+WorldBegin
+##added heterovolume
+#"color sigma_a" [0.009 0.011 0.015 ]
+Volume "perlinVolume"
+	"color sigma_a" [0.009 0.012 0.013 ]
+	"color sigma_s" [.0007 .0008 .0005]
+	"point p0" [ -500 0 -500 ] "point p1" [ 500 500 500]
+	"float g" [0.9]
+	"float omega" [0.75]
+	"float frequency" [.015]
+	"integer nOctaves" [3 ]
+	"boolean inverted" "false"
+
+
+############################################################################
+# Light Source Definitions
+############################################################################
+AttributeBegin
+    #Rotate 10 1 0 0 
+    Translate 278.000000 278.000000 279.500000
+    LightSource "point" "point from" [0.000000 200.000000 0.000000 ] "color I" [412300 341100 298600 ] 
+AttributeEnd
+# ignored Illuminate 1.000000 1.000000
+############################################################################
+# Wall Definitions
+############################################################################
+AttributeBegin
+    #Sides 1
+    #Material "plastic"
+    Material "matte" "color Kd" [.99 .99 .99]
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [550.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 560.000000 550.000000 0.000000 560.000000 ] 
+
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [560.000000 550.000000 0.000000 560.000000 550.000000 560.000000 0.000000 550.000000 560.000000 0.000000 550.000000 0.000000 ] 
+
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [550.000000 0.000000 560.000000 0.000000 0.000000 560.000000 0.000000 550.000000 560.000000 560.000000 550.000000 560.000000 ] 
+Material "matte" "color Kd" [.0 .99 .0]
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [0.000000 0.000000 560.000000 0.000000 0.000000 0.000000 0.000000 550.000000 0.000000 0.000000 550.000000 560.000000 ] 
+
+        Material "matte" "color Kd" [.99 .0 .0]
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [550.000000 0.000000 0.000000 550.000000 0.000000 560.000000 560.000000 550.000000 560.000000 560.000000 550.000000 0.000000 ] 
+AttributeEnd
+############################################################################
+# Short Box Definition
+############################################################################
+AttributeBegin
+    Material "matte" "color Kd" [.99 .99 .99]
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [130.000000 165.000000 65.000000 82.000000 165.000000 225.000000 240.000000 165.000000 272.000000 290.000000 165.000000 114.000000 ] 
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [290.000000 0.000000 114.000000 290.000000 165.000000 114.000000 240.000000 165.000000 272.000000 240.000000 0.000000 272.000000 ] 
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [130.000000 0.000000 65.000000 130.000000 165.000000 65.000000 290.000000 165.000000 114.000000 290.000000 0.000000 114.000000 ] 
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [82.000000 0.000000 225.000000 82.000000 165.000000 225.000000 130.000000 165.000000 65.000000 130.000000 0.000000 65.000000 ] 
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [240.000000 0.000000 272.000000 240.000000 165.000000 272.000000 82.000000 165.000000 225.000000 82.000000 0.000000 225.000000 ] 
+AttributeEnd
+############################################################################
+# Tall Box Definition
+############################################################################
+AttributeBegin
+    Material "matte" "color Kd"  [.99 .99 .99]
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [423.000000 330.000000 247.000000 265.000000 330.000000 296.000000 314.000000 330.000000 456.000000 472.000000 330.000000 406.000000 ] 
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [423.000000 0.000000 247.000000 423.000000 330.000000 247.000000 472.000000 330.000000 406.000000 472.000000 0.000000 406.000000 ] 
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [472.000000 0.000000 406.000000 472.000000 330.000000 406.000000 314.000000 330.000000 456.000000 314.000000 0.000000 456.000000 ] 
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [314.000000 0.000000 456.000000 314.000000 330.000000 456.000000 265.000000 330.000000 296.000000 265.000000 0.000000 296.000000 ] 
+    Shape "trianglemesh"  "integer indices" [0 2 1 0 3 2 ] "point P" [265.000000 0.000000 296.000000 265.000000 330.000000 296.000000 423.000000 330.000000 247.000000 423.000000 0.000000 247.000000 ] 
+AttributeEnd
+WorldEnd
